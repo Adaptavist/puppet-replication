@@ -1,0 +1,11 @@
+#!/bin/bash
+
+### File managed with puppet ###
+### Served by:        '<%= scope.lookupvar('::servername') %>'
+### Module:           '<%= scope.to_hash['module_name'] %>'
+### Template source:  '<%= template_source %>'
+
+<% @rsync_modules.each_pair do |rsync_name, rsync_module| -%>
+<%= @cron_rsync_path %> <%= @cron_rsync_opts %> <%= rsync_module['source'] %> <%= rsync_module['target'] %> 2>&1 | /usr/bin/logger -t "lsync-full-sync"
+<% end -%>
+

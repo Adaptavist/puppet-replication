@@ -1,0 +1,28 @@
+#!/bin/bash
+# Arg 1 - path to repository
+# Arg 2 - revision number (only used for reporting)
+svnsyncpath=/usr/bin/   # Path to svnsync
+if [ ! -d $svnsyncpath ];then
+  echo "Replication script not configured properly" 2>&1
+  exit
+fi
+# Read args
+repo=`basename $1`
+revision=$2
+# Set up variables (configure as reqiured)
+logfile=<%=@logfile%>
+trgurl=<%=@target_url%>
+source_username=<%=@source_username%>
+source_password=<%=@source_password%>
+sync_username=<%=@sync_username%>
+sync_password=<%=@sync_password%>
+# Run
+echo "$* " >> $logfile
+$svnsyncpath/svnsync sync \
+   --trust-server-cert \
+   --non-interactive \
+   --source-username $source_username \
+   --source-password $source_password \
+   --sync-username $sync_username \
+   --sync-password $sync_password \
+   $trgurl >> $logfile 2>&1 &

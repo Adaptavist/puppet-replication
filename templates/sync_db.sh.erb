@@ -1,0 +1,62 @@
+#!/bin/bash
+set -e
+
+DBHOST='<%= @from_server%>'
+DBPORT='<%= @from_port%>'
+TO_DBHOST='<%= @to_server%>'
+TO_DBPORT='<%= @to_port%>'
+DUMP_USERNAME='<%= @dump_user %>'
+DUMP_PASSWORD='<%= @dump_password %>'
+LOCAL_DUMP_USERNAME='<%= @to_server_user %>'
+LOCAL_DUMP_PASSWORD='<%= @to_server_password %>'
+REPLICA_USERNAME='<%= @replication_user %>'
+REPLICA_USER_PASSWORD='<%= @replication_password %>'
+DUMP_PATH='/tmp/dump.sql'
+# Remote mysql commands
+
+# Databases to exclude
+REMOTE_MYSQL_OPTIONS="-h ${DBHOST} -P ${DBPORT} -u ${DUMP_USERNAME} -p${DUMP_PASSWORD}"
+<% unless @databases%>
+DATABASES=$(mysql -N $REMOTE_MYSQL_OPTIONS  <<<"SHOW DATABASES" | grep -v -E -e 'mysql|information_schema|test|performance_schema' | tr "\n" " ")
+<%else%>
+DATABASES=<%=@databases%>
+<%end%>
+
+# mysql $REMOTE_MYSQL_OPTIONS <<< "RESET MASTER;"
+
+# Create the dump file, containing the "CHANGE MASTER" statement as a comment.
+# It can also be used to create an initial dump
+mysqldump $REMOTE_MYSQL_OPTIONS \
+    --skip-lock-tables \
+    --single-transaction \
+    --flush-logs \
+    --hex-blob \
+    --master-data=2 \
+    --add-drop-database \
+    --databases $DATABASES \
+    > ${DUMP_PATH}
+
+
+# Remove the '-- ' sql comment prefix from the change master statement
+# so that we can execute it
+CHANGE_MASTER_POS=$(grep 'CHANGE MASTER' ${DUMP_PATH} | sed 's/-- //' | head -1)
+
+LOCAL_MYSQL_OPTIONS="-h ${TO_DBHOST} -P ${TO_DBPORT} -u ${LOCAL_DUMP_USERNAME} -p${LOCAL_DUMP_PASSWORD}"
+
+# local mysql commands:
+mysql ${LOCAL_MYSQL_OPTIONS} < ${DUMP_PATH}
+
+mysql ${LOCAL_MYSQL_OPTIONS} <<EOF
+STOP SLAVE;
+RESET SLAVE;
+
+CHANGE MASTER TO MASTER_HOST='${DBHOST}',
+    MASTER_PORT=${DBPORT},
+    MASTER_USER='${REPLICA_USERNAME}',
+    MASTER_PASSWORD='${REPLICA_USER_PASSWORD}';
+$CHANGE_MASTER_POS
+START SLAVE;
+EOF
+
+rm ${DUMP_PATH}
+touch /var/opt/initial_database_synchronization_done.lock

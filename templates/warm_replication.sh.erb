@@ -1,0 +1,84 @@
+#!/bin/bash
+
+#trap errors
+trap 'handle_error' ERR
+
+#set variables
+CHECK_RETRY=<%=@check_retry%>
+SLEEP_SECONDS=5
+CHECK_COMMAND="<%=@real_check_status_command%>"
+STOP_COMMAND="<%=@real_stop_command%>"
+START_COMMAND="<%=@real_start_command%>"
+CHECK_COUNT=0
+INSTANCE_NAME=<%=@instance_name%>
+TMP_FILE_TO_REMOVE="<%=@real_tmp_file_to_remove%>"
+RUN_AS=<%=@run_as%>
+RELOAD_DATABASE_COMMAND="<%=@real_reload_database_command%>"
+SYNC_FILESYSTEM_COMMAND="<%=@real_sync_filesystem_command%>"
+
+#error handling function (done instead of set -e so we can restart instance if needed)
+function handle_error {
+    #attempt to start instance 
+    if [ $(eval ${CHECK_COMMAND}) -eq 0 ]
+    then
+        eval "${START_COMMAND}"
+    fi
+    exit 99
+}
+
+function message() {
+    echo "Sync Instance: $1"
+}
+
+message "Script starting...."
+
+#check we are running as root
+if [ "$(whoami)" != "${RUN_AS}" ]
+then
+    message "ERROR: This script can only run as ${RUN_AS}!"
+    exit 1
+fi
+
+#stop instance
+message "Stopping instance..."
+eval "${STOP_COMMAND}"
+
+#ensure process has stopped
+message "Checking instance has stopped"
+PROCESS_COUNT=$(eval ${CHECK_COMMAND})
+while [ ${PROCESS_COUNT} -ne 0 ] && [ ${CHECK_COUNT} -lt ${CHECK_RETRY} ]
+do
+    message "Still running lets wait for ${SLEEP_SECONDS} seconds"
+    sleep ${SLEEP_SECONDS}
+    PROCESS_COUNT=$(eval ${CHECK_COMMAND})
+    CHECK_COUNT=$(($CHECK_COUNT + 1))
+done
+
+if [ ${PROCESS_COUNT} -ne 0 ]
+then
+    message "ERROR: Instance did not stop in the time required!"
+    exit 2
+fi
+
+message "Instance is stopped, lets get on with it"
+
+if [ -f "${TMP_FILE_TO_REMOVE}" ]
+then
+    #remove temp files
+    message "Removing temporary file ${TMP_FILE_TO_REMOVE}"
+    /bin/rm -f "${TMP_FILE_TO_REMOVE}"
+fi
+
+#sync filesystem (instance/apache), exclude SVN as its replicated via svnsync and a post commit hook
+message "Sync filesystem (excluding SVN as its dealt with via svnsync/post-commit hook)"
+eval "${SYNC_FILESYSTEM_COMMAND}"
+
+#sync the DB
+message "Dumping/reloading database (via stunnel)"
+eval "${RELOAD_DATABASE_COMMAND}"
+
+#restart instance
+message "Starting instance..."
+eval "${START_COMMAND}"
+
+message "Script finished..."

@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+
+# variables
+REMOTE_REPO=<%=@server_url%>
+LOCAL_REPO=<%=@client_url%>
+SERVER_USER=<%=@server_user%>
+SERVER_PASSWORD=<%=@server_password%>
+LOCAL_USER=<%=@local_user%>
+LOCAL_PASSWORD=<%=@local_password%>
+# important stuff
+uuid=$(svn info ${REMOTE_REPO} --no-auth-cache --username ${SERVER_USER} --password ${SERVER_PASSWORD} | sed -ne 's/.*UUID: //p')
+
+latest_version=$(svn info ${LOCAL_REPO} --username ${LOCAL_USER} --password ${LOCAL_PASSWORD} | sed -ne 's/.*Revision: //p')
+
+svn propset -r 0 --username ${LOCAL_USER} --password ${LOCAL_PASSWORD} --revprop svn:sync-from-uuid $uuid ${LOCAL_REPO}
+svn propset -r 0 --username ${LOCAL_USER} --password ${LOCAL_PASSWORD} --revprop svn:sync-last-merged-rev $latest_version ${LOCAL_REPO}
+svn propset -r 0 --username ${LOCAL_USER} --password ${LOCAL_PASSWORD} --revprop svn:sync-from-url ${REMOTE_REPO} ${LOCAL_REPO}
+

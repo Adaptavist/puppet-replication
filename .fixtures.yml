@@ -3,15 +3,15 @@ fixtures:
     stdlib:
       repo: "https://github.com/Adaptavist/puppet-stdlib"
     lsyncd:
-      repo: "ssh://git@stash.adaptavist.com:7999/pup/puppet-lsyncd"
+      repo: "https://github.com/Adaptavist/puppet-lsyncd"
     stunnel:
       repo: "https://github.com/Adaptavist/puppet-stunnel"
     stunnel_config:
-      repo: "ssh://git@stash.adaptavist.com:7999/pup/puppet-stunnel_config"
+      repo: "https://github.com/Adaptavist/puppet-stunnel_config"
     rsync:
       repo: "https://github.com/Adaptavist/puppet-rsync"
     rsync_config:
-      repo: "ssh://git@stash.adaptavist.com:7999/pup/puppet-rsync_config"
+      repo: "https://github.com/Adaptavist/puppet-rsync_config"
     subversion:
       repo: "https://github.com/Adaptavist/puppet-subversion"
   symlinks:

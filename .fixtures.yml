@@ -14,5 +14,7 @@ fixtures:
       repo: "https://github.com/Adaptavist/puppet-rsync_config"
     subversion:
       repo: "https://github.com/Adaptavist/puppet-subversion"
+    xinetd:
+      repo: "https://github.com/Adaptavist/puppet-xinetd"
   symlinks:
     replication: "#{source_dir}"

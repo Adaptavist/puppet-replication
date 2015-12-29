@@ -25,6 +25,9 @@ describe 'replication::filesystem::client', :type => 'class' do
         }
       }
     end
+    let(:facts) {
+     { :osfamily     => 'RedHat' }
+    }
     it do
       should contain_rsync__server__module('opt').with({
         'path' => '/opt',  

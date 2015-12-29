@@ -54,7 +54,7 @@ class replication::database::client (
                 command   => 'rm -f /var/opt/synchronize_database_with_slave.sh',
                 logoutput => on_failure,
                 onlyif    => ['test -f /var/opt/synchronize_database_with_slave.sh'],
-                path      => ['/usr/bin', '/usr/sbin', '/bin', '/sbin'],s
+                path      => ['/usr/bin', '/usr/sbin', '/bin', '/sbin'],
         }
     }
 }

@@ -31,7 +31,7 @@ class replication::filesystem::server(
             file {'lsync_daily_sync_script':
                 ensure  => file,
                 content => template('replication/lsync_daily_sync.erb'),
-                path    => "$cron_file",
+                path    => $cron_file,
                 owner   => 'root',
                 group   => 'root',
                 mode    => '0755'

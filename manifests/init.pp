@@ -2,11 +2,11 @@
 #
 
 class replication(
-        $present              = "true",
-        $database_replication = "false",
-        $filesystem_repolication = "false",
-        $svn_replication = "false",
-        $warm_replication = "false",
+        $present              = 'true',
+        $database_replication = 'false',
+        $filesystem_repolication = 'false',
+        $svn_replication = 'false',
+        $warm_replication = 'false',
         $stunnel_tunnels   = undef,
     ){
 

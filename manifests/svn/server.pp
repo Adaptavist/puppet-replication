@@ -6,7 +6,7 @@ class replication::svn::server (
     $source_username,
     $source_password,
     $repo_location,
-    $svn_hook_prerequisites = "Class[subversion]",
+    $svn_hook_prerequisites = 'Class[subversion]',
     $logfile                = $replication::svn::params::logfile,
     $target_url             = $replication::svn::params::target_url,
     $present                = $replication::svn::params::present,
@@ -27,7 +27,7 @@ class replication::svn::server (
         file {'svn_post_commit_hook_template' :
                 ensure  => file,
                 content => template('replication/svn_post_commit_hook.erb'),
-                path  => "${repo_location}/hooks/post-commit",
+                path    => "${repo_location}/hooks/post-commit",
                 owner   => 'root',
                 group   => 'root',
                 mode    => '0755',

@@ -23,8 +23,8 @@ class replication::filesystem::params {
     $create_daily_cron = true
     $cron_user = 'root'
     $cron_file = '/etc/cron.daily/lsync_daily_sync'
-    $cron_rsync_path = "/usr/bin/rsync"
-    $cron_rsync_opts = "-ravH --delete"
+    $cron_rsync_path = '/usr/bin/rsync'
+    $cron_rsync_opts = '-ravH --delete'
 
     # client setup
     #setup rsync

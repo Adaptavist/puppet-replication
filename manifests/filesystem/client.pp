@@ -14,7 +14,7 @@ class replication::filesystem::client(
         if ! defined(Class['rsync_config']) {
             #setup rsync server
             class { 'rsync_config' :
-                use_xinetd => $use_use_xinetd,
+                use_xinetd => $use_xinetd,
                 rsync_opts => $rsync_opts,
                 address    => $address,
                 modules    => $folders,

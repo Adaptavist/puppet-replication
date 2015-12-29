@@ -13,12 +13,12 @@ class replication::warm_replication::server(
     $custom_start_command = undef,
     $custom_stop_command = undef,
     $custom_sync_filesystem_command = undef,
-    $sync_from = "/opt/",
-    $sync_to = "localhost::opt/",
+    $sync_from = '/opt/',
+    $sync_to = 'localhost::opt/',
     $sync_exclude = undef,
     $custom_tmp_file_to_remove = undef,
     $check_retry = 5,
-    $run_as = "root",
+    $run_as = 'root',
     $month    = '*',
     $monthday = '*',
     $hour     = '12',
@@ -66,7 +66,7 @@ class replication::warm_replication::server(
         $real_sync_filesystem_command = $custom_sync_filesystem_command
     }
 
-    $cron_command = "/var/opt/warm_replication.sh"
+    $cron_command = '/var/opt/warm_replication.sh'
 
     unless ( $server_tunnels == undef ) {
             include stunnel_config
@@ -76,7 +76,7 @@ class replication::warm_replication::server(
     file {'warm_copy_#{instance_name}_template_script':
         ensure  => file,
         content => template('replication/warm_replication.sh.erb'),
-        path  => '/var/opt/warm_replication.sh',
+        path    => '/var/opt/warm_replication.sh',
         owner   => 'root',
         group   => 'root',
         mode    => '0744',

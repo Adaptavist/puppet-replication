@@ -25,7 +25,7 @@ class replication::svn::client(
             file {'svn-pre-revprop-change':
                     ensure  => file,
                     content => template('replication/svn_pre-revprop-change.erb'),
-                    path    => "$client_hooks_path/pre-revprop-change",
+                    path    => "${client_hooks_path}/pre-revprop-change",
                     owner   => 'root',
                     group   => 'root',
                     mode    => '0775',
@@ -38,21 +38,21 @@ class replication::svn::client(
         file {'svn_client_replication_template':
                 ensure  => file,
                 content => template('replication/svn_client_replication.sh.erb'),
-                path  => '/var/opt/svn_client_replication.sh',
+                path    => '/var/opt/svn_client_replication.sh',
                 owner   => 'root',
                 group   => 'root',
                 mode    => '0744',
                 require => Class['subversion'],
         } ->
         exec {'execute_db_dump_script':
-                command     => '/var/opt/svn_client_replication.sh',
-                logoutput   => on_failure,
+                command   => '/var/opt/svn_client_replication.sh',
+                logoutput => on_failure,
         } ->
         exec {'remove_svn_client_replication_script':
-                command     => 'rm -f /var/opt/svn_client_replication.sh',
-                logoutput   => on_failure,
-                onlyif      => ['test -f /var/opt/svn_client_replication.sh'],
-                path        => ["/usr/bin", "/usr/sbin", "/bin", "/sbin"],
+                command   => 'rm -f /var/opt/svn_client_replication.sh',
+                logoutput => on_failure,
+                onlyif    => ['test -f /var/opt/svn_client_replication.sh'],
+                path      => ['/usr/bin', '/usr/sbin', '/bin', '/sbin'],
         }
     }
 }

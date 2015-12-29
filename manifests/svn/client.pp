@@ -52,6 +52,7 @@ class replication::svn::client(
                 command     => 'rm -f /var/opt/svn_client_replication.sh',
                 logoutput   => on_failure,
                 onlyif      => ['test -f /var/opt/svn_client_replication.sh'],
+                path        => ["/usr/bin", "/usr/sbin", "/bin", "/sbin"],
         }
     }
 }

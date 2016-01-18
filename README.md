@@ -1,6 +1,7 @@
-#Replication
+# Replication
+[![Build Status](https://travis-ci.org/Adaptavist/puppet-replication.svg?branch=master)](https://travis-ci.org/Adaptavist/puppet-replication)
 
-####Table of Contents
+#### Table of Contents
 
 1. [Overview - What is the replication module?](#overview)
 1. [Module Description - What does the module do?](#module-description)
@@ -22,11 +23,11 @@
     * [Contributing to the module](#contributing)
     * [Running tests - A quick guide](#running-tests)
 
-##Overview
+## Overview
 
 The **Replication** module
 
-##Module Description
+## Module Description
 
 Module sets up replication server and clients for filesystem, svn and database replication.
 
@@ -255,7 +256,7 @@ replication::svn::client::client_hooks_path: '/tmp/repo_backup/hooks'
 
 ```
 
-##Module Dependencies
+## Module Dependencies
 
 - 'duritong//subversion'
 - 'adaptavist/stunnel_config'
@@ -263,54 +264,54 @@ replication::svn::client::client_hooks_path: '/tmp/repo_backup/hooks'
 - 'adaptavist/rsync_config'
 - 'puppetlabs/rsync'
 
-###Classes and defined types
+### Classes and defined types
 
-####Class: Replication::database::server
+#### Class: Replication::database::server
 
-####Class: Replication::database::client
+#### Class: Replication::database::client
 
-####Class: Replication::filesystem::server
+#### Class: Replication::filesystem::server
 
-####Class: Replication::filesystem::client
+#### Class: Replication::filesystem::client
 
-####Class: Replication::svn::server
+#### Class: Replication::svn::server
 
-####Class: Replication::svn::client
+#### Class: Replication::svn::client
 
-###Examples
+### Examples
 
 See above for usage per required replication type
 
-##Reference
+## Reference
 
-###Classes
+### Classes
 
-####Public classes
+#### Public classes
 
 All above
 
-####Private classes
+#### Private classes
 
-###Defined types
+### Defined types
 
-####Public defined types
+#### Public defined types
 
-####Private defined types
+#### Private defined types
 
-###Templates
+### Templates
 
 - svn_client_replication.sh.erb  - sets properties on client to act as slave and replicate commits from server
 - svn_post_commit_hook.erb - notifies client about the commit
 - svn_pre-revprop-change.erb - enable changing of svn properties
 - sync_db.sh.erb - creates initial db dump from server, apply it to client and sets up client as db slave and to continue replication from the last position in dump.
 
-##Limitations
+## Limitations
 
 * Module is not specific to OS.
 
-##Development
+## Development
 
-###Contributing
+### Contributing
 
 * Create branch, name it according to functionality you are developing. Prefix with feature or bug, so the branch name looks like feature/<name_of_feature>
 
@@ -320,7 +321,7 @@ All above
 
 * Once approved, merge with master
 
-###Running tests
+### Running tests
 
 Tests are located in spec folder. Subfolders classes and defines separates types of objects tested. Make sure .fixtures.yml contains all dependent modules to run tests. Functionality in all classes and defines has to be tested for all supported OS and cases of use. 
 

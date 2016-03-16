@@ -25,6 +25,11 @@ class replication::filesystem::params {
     $cron_file = '/etc/cron.daily/lsync_daily_sync'
     $cron_rsync_path = '/usr/bin/rsync'
     $cron_rsync_opts = '-ravH --delete'
+    $create_monitor_cron = true
+    $monitor_cron_schedule = '*/10 * * * *'
+    $monitor_cron_user = 'root'
+    $monitor_cron_cronfile = '/etc/cron.d/fs_replication_monitor'
+    $monitor_cron_file = 'replication.lock'
 
     # client setup
     #setup rsync

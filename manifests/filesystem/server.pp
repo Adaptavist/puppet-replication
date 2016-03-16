@@ -11,7 +11,11 @@ class replication::filesystem::server(
     $cron_rsync_path       = $replication::filesystem::params::cron_rsync_path,
     $cron_rsync_opts       = $replication::filesystem::params::cron_rsync_opts,
     $lsync_flush_config    = $replication::filesystem::params::lsync_flush_config,
-
+    $create_monitor_cron   = $replication::filesystem::params::create_monitor_cron,
+    $monitor_cron_schedule = $replication::filesystem::params::monitor_cron_schedule,
+    $monitor_cron_user     = $replication::filesystem::params::monitor_cron_user,
+    $monitor_cron_cronfile = $replication::filesystem::params::monitor_cron_cronfile,
+    $monitor_cron_file     = $replication::filesystem::params::monitor_cron_file,
     ) inherits replication::filesystem::params {
     
     if str2bool($present){
@@ -41,6 +45,18 @@ class replication::filesystem::server(
         unless ( $server_tunnels == undef ) {
             include stunnel_config
             create_resources('stunnel_config::tun', $server_tunnels)
+        }
+
+        # if required create a cron to touch files in the replications folder(s) to aid monitoring
+        if str2bool($create_monitor_cron) {
+            file { $monitor_cron_cronfile:
+                ensure  => file,
+                content => template('replication/filesystem_monitor_cron.erb'),
+                path    => $monitor_cron_cronfile,
+                owner   => 'root',
+                group   => 'root',
+                mode    => '0644'
+            }
         }
     }
 }

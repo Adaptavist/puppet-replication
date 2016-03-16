@@ -15,7 +15,7 @@ class replication::database::client (
     $semanage_package = $replication::database::params::semanage_package,
     ) inherits replication::database::params {
 
-    if($present == true){
+    if str2bool($present){
         unless ( $client_tunnels == undef ) {
             include stunnel_config
             create_resources('stunnel_config::tun', $client_tunnels)

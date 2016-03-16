@@ -14,7 +14,7 @@ class replication::filesystem::server(
 
     ) inherits replication::filesystem::params {
     
-    if ($present == true){
+    if str2bool($present){
         if ! defined(Class['lsyncd']) {
             #setup rsync server
             class { 'lsyncd' :
@@ -27,7 +27,7 @@ class replication::filesystem::server(
         }
 
         # if a daily cron is required create it
-        if ($create_daily_cron == true) {
+        if str2bool($create_daily_cron) {
             file {'lsync_daily_sync_script':
                 ensure  => file,
                 content => template('replication/lsync_daily_sync.erb'),

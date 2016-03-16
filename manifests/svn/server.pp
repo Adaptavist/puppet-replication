@@ -13,7 +13,7 @@ class replication::svn::server (
     $client_tunnels         = undef,
     ) inherits replication::svn::params {
 
-    if($present == true){
+    if str2bool($present){
 
         unless ( $client_tunnels == undef ) {
             include stunnel_config

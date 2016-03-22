@@ -134,7 +134,7 @@ replication::database::server::server_tunnels:
 
 By default make sure /etc/stunnel/stunnel.pem exists and user stunnel4 exists...
 
-It is possible to creaet a cron on the Filesystem master that will touch a file in each replicated folder, the point of this is to provide a file thats mtime is updated in a controlled way, this allows a monitoring system to check this file and depending on the mtime determine if replication is working as expected or not.  An example of this is to use the Nagios check_file_age plugin.
+It is possible to create a cron on the Filesystem master that will touch a file in each replicated folder, the point of this is to provide a file thats mtime is updated in a controlled way, this allows a monitoring system to check this file and depending on the mtime determine if replication is working as expected or not. An example of this is to use the Nagios check_file_age plugin.
 
 The following variables control the "monitor cron"
 

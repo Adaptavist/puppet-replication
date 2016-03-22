@@ -10,7 +10,7 @@ class replication::filesystem::client(
     $create_folders = $replication::filesystem::params::create_folders,
     ) inherits replication::filesystem::params {
     
-    if ($present == true){
+    if str2bool($present){
         if ! defined(Class['rsync_config']) {
             #setup rsync server
             class { 'rsync_config' :

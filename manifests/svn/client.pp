@@ -12,7 +12,7 @@ class replication::svn::client(
     $present           = $replication::svn::params::present,
     ) inherits replication::svn::params {
 
-    if ($present == true){
+    if str2bool($present){
         include subversion
 
         unless ( $client_tunnels == undef ) {

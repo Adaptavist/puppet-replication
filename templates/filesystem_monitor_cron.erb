@@ -1,0 +1,3 @@
+<% @rsync_modules.each_pair do |rsync_name, rsync_module| -%>
+<%= @monitor_cron_schedule %> <%= @monitor_cron_user %> touch <%= rsync_module['source'] %>/<%= @monitor_cron_file %>
+<% end -%>

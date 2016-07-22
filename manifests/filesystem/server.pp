@@ -17,7 +17,7 @@ class replication::filesystem::server(
     $monitor_cron_cronfile = $replication::filesystem::params::monitor_cron_cronfile,
     $monitor_cron_file     = $replication::filesystem::params::monitor_cron_file,
     ) inherits replication::filesystem::params {
-    
+
     if str2bool($present){
         if ! defined(Class['lsyncd']) {
             #setup rsync server

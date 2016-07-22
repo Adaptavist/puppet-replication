@@ -19,7 +19,7 @@ class replication::database::postgres_client (
     } else {
         $real_postgres_service_stop_command = "service ${postgresql::server::service_name} stop"
     }
-  
+
     exec {'stop_postgres_service':
         command   => $real_postgres_service_stop_command,
         logoutput => on_failure,
@@ -36,7 +36,8 @@ class replication::database::postgres_client (
         mode    => '0600',
     } ->
     exec { 'start_base_backup_for_user':
-        command   => "rm -rf ${postgresql::server::datadir}/*; sudo -u ${postgresql::server::user} pg_basebackup -h ${from_server} -D ${postgresql::server::datadir} -U ${replication_user} -p ${from_port} -v -P -w",
+        command   => "rm -rf ${postgresql::server::datadir}/*; sudo -u ${postgresql::server::user} \
+        pg_basebackup -h ${from_server} -D ${postgresql::server::datadir} -U ${replication_user} -p ${from_port} -v -P -w",
         unless    => ["test -f ${replication_lock_file_path}/initial_sync_done.lock"],
         logoutput => on_failure
     } ->

@@ -9,7 +9,7 @@ class replication::filesystem::client(
     $present        = $replication::filesystem::params::present,
     $create_folders = $replication::filesystem::params::create_folders,
     ) inherits replication::filesystem::params {
-    
+
     if str2bool($present){
         if ! defined(Class['rsync_config']) {
             #setup rsync server
@@ -20,7 +20,7 @@ class replication::filesystem::client(
                 modules    => $folders,
             }
         }
-        
+
         unless ( $client_tunnels == undef ) {
             include stunnel_config
             create_resources('stunnel_config::tun', $client_tunnels)

@@ -51,7 +51,8 @@ class replication::warm_replication::server(
     }
 
     if ($custom_reload_database_command == undef){
-        $real_reload_database_command = "/usr/bin/mysqldump ${instance_db_name} | /usr/bin/mysql --host ${instance_db_host} --port ${instance_db_port} -u ${instance_db_user}  -p${instance_db_pass} ${instance_db_name}"
+        $real_reload_database_command = "/usr/bin/mysqldump ${instance_db_name} | /usr/bin/mysql --host ${instance_db_host} \
+        --port ${instance_db_port} -u ${instance_db_user}  -p${instance_db_pass} ${instance_db_name}"
     } else {
         $real_reload_database_command = $custom_reload_database_command
     }

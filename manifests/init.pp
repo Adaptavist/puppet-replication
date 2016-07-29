@@ -23,7 +23,7 @@ class replication(
         if (str2bool($warm_replication)) {
             include replication::warm_replication::server
         }
-    
+
         unless ( $stunnel_tunnels == undef ) {
             include stunnel_config
             create_resources('stunnel_config::tun', $stunnel_tunnels)

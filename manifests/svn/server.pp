@@ -19,7 +19,7 @@ class replication::svn::server (
             include stunnel_config
             create_resources('stunnel_config::tun', $client_tunnels)
         }
-        
+
         include subversion
 
         Subversion::Svnrepo<| |> -> File['svn_post_commit_hook_template']

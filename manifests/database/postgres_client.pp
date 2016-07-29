@@ -5,7 +5,7 @@ class replication::database::postgres_client (
     $replication_password,
     $replication_lock_file_path    = '/etc/puppet/files',
     $postgres_service_stop_command = 'false',
-    $postgres_user_home            = '',
+    $replication_user_home         = '',
     ) {
 
     if ($postgres_user_home and $postgres_user_home != '') {

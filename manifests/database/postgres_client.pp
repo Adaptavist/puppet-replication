@@ -8,8 +8,8 @@ class replication::database::postgres_client (
     $replication_user_home         = '',
     ) {
 
-    if ($postgres_user_home and $postgres_user_home != '') {
-        $real_postgres_user_home = $postgres_user_home
+    if ($replication_user_home and $replication_user_home != '') {
+        $real_postgres_user_home = $replication_user_home
     } else {
         $real_postgres_user_home = "${postgresql::server::datadir}/.."
     }

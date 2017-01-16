@@ -7,6 +7,12 @@ describe 'replication::database::server', :type => 'class' do
     }
   end
   context "Should include replication database" do
+    let(:facts){{
+      :osfamily => 'RedHat',
+      :operatingsystemrelease => '7',
+      :operatingsystem => 'RedHat'
+    }}
+    
     let :params do
       { :server_tunnels => {
         'mysql' => {

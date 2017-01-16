@@ -3,11 +3,11 @@
 class replication::svn::client(
     $server_url,
     $client_url,
-    $client_hooks_path = undef,
     $server_user,
     $server_password,
     $local_user,
     $local_password,
+    $client_hooks_path = undef,
     $client_tunnels    = $replication::svn::params::client_tunnels,
     $present           = $replication::svn::params::present,
     ) inherits replication::svn::params {

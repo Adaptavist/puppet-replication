@@ -1,15 +1,15 @@
 class replication::database::client (
-    $from_server      = $replication::database::params::from_server,
-    $from_port        = $replication::database::params::from_port,
-    $to_server        = $replication::database::params::to_server,
-    $to_port          = $replication::database::params::to_port,
-    $databases        = undef, #will fallback to all databases except the system ones
     $replication_user,
     $replication_password,
     $dump_user,
     $dump_password,
     $to_server_user,
     $to_server_password,
+    $from_server      = $replication::database::params::from_server,
+    $from_port        = $replication::database::params::from_port,
+    $to_server        = $replication::database::params::to_server,
+    $to_port          = $replication::database::params::to_port,
+    $databases        = undef, #will fallback to all databases except the system ones
     $present          = $replication::database::params::present,
     $client_tunnels   = $replication::database::params::client_tunnels,
     $semanage_package = $replication::database::params::semanage_package,

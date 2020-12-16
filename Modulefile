@@ -1,5 +1,5 @@
 name 'adaptavist-replication'
-version '1.0.0'
+version '1.0.1'
 source 'https://github.com/Adaptavist/puppet-replication.git'
 author 'adaptavist'
 summary 'replication Module' 

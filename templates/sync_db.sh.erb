@@ -17,7 +17,7 @@ DUMP_PATH='/tmp/dump.sql'
 # Databases to exclude
 REMOTE_MYSQL_OPTIONS="-h ${DBHOST} -P ${DBPORT} -u ${DUMP_USERNAME} -p${DUMP_PASSWORD}"
 <% unless @databases%>
-DATABASES=$(mysql -N $REMOTE_MYSQL_OPTIONS  <<<"SHOW DATABASES" | grep -v -E -e 'mysql|information_schema|test|performance_schema' | tr "\n" " ")
+DATABASES=$(mysql -N $REMOTE_MYSQL_OPTIONS  <<<"SHOW DATABASES" | grep -v -E -e 'sys|mysql|information_schema|test|performance_schema' | tr "\n" " ")
 <%else%>
 DATABASES=<%=@databases%>
 <%end%>

@@ -43,14 +43,12 @@ class replication::database::client (
                 group   => 'root',
                 mode    => '0744',
                 require => 'Anchor[mysql::server::end]',
-        } ->
-        exec {'execute_db_dump_script':
+        } -> exec {'execute_db_dump_script':
                 command   => '/var/opt/synchronize_database_with_slave.sh',
                 logoutput => on_failure,
                 unless    => ['test -f /var/opt/initial_database_synchronization_done.lock'],
                 path      => ['/usr/bin', '/usr/sbin', '/bin', '/sbin'],
-        } ->
-        exec {'remove_synchronize_database_with_slave_script':
+        } ->  exec {'remove_synchronize_database_with_slave_script':
                 command   => 'rm -f /var/opt/synchronize_database_with_slave.sh',
                 logoutput => on_failure,
                 onlyif    => ['test -f /var/opt/synchronize_database_with_slave.sh'],

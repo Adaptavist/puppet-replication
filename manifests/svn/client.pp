@@ -43,12 +43,10 @@ class replication::svn::client(
                 group   => 'root',
                 mode    => '0744',
                 require => Class['subversion'],
-        } ->
-        exec {'execute_db_dump_script':
+        } -> exec {'execute_db_dump_script':
                 command   => '/var/opt/svn_client_replication.sh',
                 logoutput => on_failure,
-        } ->
-        exec {'remove_svn_client_replication_script':
+        } -> exec {'remove_svn_client_replication_script':
                 command   => 'rm -f /var/opt/svn_client_replication.sh',
                 logoutput => on_failure,
                 onlyif    => ['test -f /var/opt/svn_client_replication.sh'],

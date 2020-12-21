@@ -81,8 +81,7 @@ class replication::warm_replication::server(
         owner   => 'root',
         group   => 'root',
         mode    => '0744',
-        } ->
-    cron { "create_warm_copy_${instance_name}_cronjob":
+    } -> cron { "create_warm_copy_${instance_name}_cronjob":
         ensure   => $ensure,
         command  => $cron_command,
         user     => 'root',
@@ -90,7 +89,6 @@ class replication::warm_replication::server(
         monthday => $monthday,
         hour     => $hour,
         minute   => $minute,
-        }
-
+    }
 
 }

@@ -34,14 +34,12 @@ class replication::database::postgres_client (
         owner   => $postgresql::server::user,
         group   => $postgresql::server::group,
         mode    => '0600',
-    } ->
-    exec { 'start_base_backup_for_user':
+    } -> exec { 'start_base_backup_for_user':
         command   => "rm -rf ${postgresql::server::datadir}/*; sudo -u ${postgresql::server::user} \
         pg_basebackup -h ${from_server} -D ${postgresql::server::datadir} -U ${replication_user} -p ${from_port} -v -P -w",
         unless    => ["test -f ${replication_lock_file_path}/initial_sync_done.lock"],
         logoutput => on_failure
-    } ->
-    file {"${replication_lock_file_path}/initial_sync_done.lock":
+    } -> file {"${replication_lock_file_path}/initial_sync_done.lock":
         ensure => file,
         owner  => $postgresql::server::user,
         group  => $postgresql::server::group,
